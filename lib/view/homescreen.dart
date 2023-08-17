@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsapi/model/apimodel.dart';
 import 'package:newsapi/viewmodel/fetchapi.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,10 +17,33 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: const Text('News App'),
         ),
-        body: FutureBuilder(
+        body: FutureBuilder<List<Articles>>(
           future: fetchApi(),
           builder: (context, snapshot) {
-            return SizedBox();
+            if (snapshot.hasData) {
+              return ListView.separated(
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Text((snapshot.data![index].title).toString()),
+                      //Text((snapshot.data![index].description).toString()),
+                      //Text((snapshot.data![index].title).toString()),
+                      //Text((snapshot.data![index].title).toString()),
+                      const Divider(
+                        color: Colors.black,
+                      ),
+                    ],
+                  );
+                },
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 35,
+                ),
+                itemCount: snapshot.data!.length,
+              );
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),
