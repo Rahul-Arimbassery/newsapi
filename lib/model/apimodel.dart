@@ -1,29 +1,3 @@
-class Example {
-  String? status;
-  int? totalResults;
-  List<Articles>? articles;
-
-  Example({this.status, this.totalResults, this.articles});
-
-  Example.fromJson(Map<String, dynamic> json) {
-    status = json["status"];
-    totalResults = json["totalResults"];
-    articles = json["articles"] == null
-        ? null
-        : (json["articles"] as List).map((e) => Articles.fromJson(e)).toList();
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data["status"] = status;
-    data["totalResults"] = totalResults;
-    if (articles != null) {
-      data["articles"] = articles?.map((e) => e.toJson()).toList();
-    }
-    return data;
-  }
-}
-
 class Articles {
   Source? source;
   String? author;
